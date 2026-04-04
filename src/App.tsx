@@ -119,7 +119,7 @@ function Navbar() {
               Features
             </a>
             <a href="#quickstart" className="transition-colors hover:text-foreground">
-              Quick Start
+              Quickstart
             </a>
           </div>
         </div>
