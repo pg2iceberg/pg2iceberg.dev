@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 
 import { cn } from "@/lib/utils";
 import { GitHubStars } from "@/components/github-stars";
+
 import { useState } from "react";
 
 function CopyButton({ text }: { text: string }) {
@@ -35,6 +36,7 @@ function CopyButton({ text }: { text: string }) {
     </button>
   );
 }
+
 
 const k = "text-sky-400";
 const v = "text-amber-200";
@@ -161,7 +163,7 @@ function Hero() {
             href="https://github.com/pg2iceberg/pg2iceberg"
             target="_blank"
             rel="noopener noreferrer"
-            className={buttonVariants({ variant: "outline", size: "lg" })}
+            className={cn(buttonVariants({ variant: "outline", size: "lg" }), "border border-border")}
           >
             View on GitHub
           </a>
