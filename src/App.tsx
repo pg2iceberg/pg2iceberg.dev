@@ -45,6 +45,10 @@ const yamlConfig = (
   <>
     <span className={k}>tables</span><span className={p}>:</span>{"\n"}
     <span className={p}>  - </span><span className={k}>name</span><span className={p}>: </span><span className={v}>public.users</span>{"\n"}
+    <span className={p}>  - </span><span className={k}>name</span><span className={p}>: </span><span className={v}>public.orders</span>{"\n"}
+    <span className={p}>    </span><span className={k}>iceberg</span><span className={p}>:</span>{"\n"}
+    <span className={p}>      </span><span className={k}>partition</span><span className={p}>:</span>{"\n"}
+    <span className={p}>        - </span><span className={v}>day(created_at)</span>{"\n"}
     {"\n"}
     <span className={k}>source</span><span className={p}>:</span>{"\n"}
     <span className={p}>  </span><span className={k}>mode</span><span className={p}>: </span><span className={v}>logical</span>  <span className={c}># or "query"</span>{"\n"}
@@ -76,9 +80,9 @@ const features = [
   },
   {
     icon: Layers,
-    title: "No Kafka Required",
+    title: "Managed Iceberg",
     description:
-      "Connect Postgres to Iceberg without Kafka, Redis, or any external message broker.",
+      "Handles table maintenance automatically — compaction, orphan file deletion, and more.",
   },
   {
     icon: GitBranch,
@@ -138,14 +142,13 @@ function Hero() {
           Open Source &middot; MIT License
         </Badge>
         <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
-          Postgres to Iceberg.
+          The shortest path from
           <br />
-          <span className="text-muted-foreground">Nothing else.</span>
+          <span className="text-muted-foreground">Postgres to Iceberg.</span>
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-          Continuously replicate data from PostgreSQL to Apache Iceberg tables
-          without Kafka or any external message broker. Query your data from
-          ClickHouse, Snowflake, Spark, or any Iceberg-compatible engine.
+          Replicate data from PostgreSQL to Apache Iceberg tables in near real-time.
+          Query your data from any Iceberg-compatible query engines.
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a
