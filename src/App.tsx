@@ -38,38 +38,34 @@ function CopyButton({ text }: { text: string }) {
 }
 
 
-const k = "text-sky-400";
-const v = "text-amber-200";
-const c = "text-neutral-500";
-const p = "text-neutral-100";
+const f = "text-sky-400";
+const val = "text-amber-200";
+const cmd = "text-neutral-100";
+const cont = "text-neutral-500";
 
-const yamlConfig = (
+const dockerRunCmd = `docker run \\
+  -e POSTGRES_URL=postgresql://user:pass@host:5432/mydb \\
+  -e TABLES=public.users,public.orders \\
+  -e ICEBERG_CATALOG_URL=http://localhost:8181 \\
+  -e WAREHOUSE=s3://my-data-lake/ \\
+  -e NAMESPACE=default \\
+  -e S3_ENDPOINT=http://localhost:9000 \\
+  -e S3_ACCESS_KEY=admin \\
+  -e S3_SECRET_KEY=password \\
+  ghcr.io/pg2iceberg/pg2iceberg`;
+
+const dockerRunJsx = (
   <>
-    <span className={k}>tables</span><span className={p}>:</span>{"\n"}
-    <span className={p}>  - </span><span className={k}>name</span><span className={p}>: </span><span className={v}>public.users</span>{"\n"}
-    <span className={p}>  - </span><span className={k}>name</span><span className={p}>: </span><span className={v}>public.orders</span>{"\n"}
-    <span className={p}>    </span><span className={k}>iceberg</span><span className={p}>:</span>{"\n"}
-    <span className={p}>      </span><span className={k}>partition</span><span className={p}>:</span>{"\n"}
-    <span className={p}>        - </span><span className={v}>day(created_at)</span>{"\n"}
-    {"\n"}
-    <span className={k}>source</span><span className={p}>:</span>{"\n"}
-    <span className={p}>  </span><span className={k}>mode</span><span className={p}>: </span><span className={v}>logical</span>  <span className={c}># or "query"</span>{"\n"}
-    <span className={p}>  </span><span className={k}>postgres</span><span className={p}>:</span>{"\n"}
-    <span className={p}>    </span><span className={k}>host</span><span className={p}>: </span><span className={v}>localhost</span>{"\n"}
-    <span className={p}>    </span><span className={k}>port</span><span className={p}>: </span><span className={v}>5432</span>{"\n"}
-    <span className={p}>    </span><span className={k}>database</span><span className={p}>: </span><span className={v}>myapp</span>{"\n"}
-    <span className={p}>    </span><span className={k}>user</span><span className={p}>: </span><span className={v}>replicator</span>{"\n"}
-    <span className={p}>    </span><span className={k}>password</span><span className={p}>: </span><span className={v}>{"${PG_PASSWORD}"}</span>{"\n"}
-    <span className={p}>  </span><span className={k}>logical</span><span className={p}>:</span>{"\n"}
-    <span className={p}>    </span><span className={k}>publication_name</span><span className={p}>: </span><span className={v}>pg2iceberg_pub</span>{"\n"}
-    <span className={p}>    </span><span className={k}>slot_name</span><span className={p}>: </span><span className={v}>pg2iceberg_slot</span>{"\n"}
-    {"\n"}
-    <span className={k}>sink</span><span className={p}>:</span>{"\n"}
-    <span className={p}>  </span><span className={k}>catalog_uri</span><span className={p}>: </span><span className={v}>http://localhost:8181</span>{"\n"}
-    <span className={p}>  </span><span className={k}>warehouse</span><span className={p}>: </span><span className={v}>s3://my-data-lake/</span>{"\n"}
-    <span className={p}>  </span><span className={k}>namespace</span><span className={p}>: </span><span className={v}>default</span>{"\n"}
-    <span className={p}>  </span><span className={k}>s3_endpoint</span><span className={p}>: </span><span className={v}>s3.amazonaws.com</span>{"\n"}
-    <span className={p}>  </span><span className={k}>s3_region</span><span className={p}>: </span><span className={v}>us-east-1</span>
+    <span className={cmd}>docker run</span> <span className={cont}>\</span>{"\n"}
+    {"  "}<span className={f}>-e</span> <span className={val}>POSTGRES_URL=postgresql://user:pass@host:5432/mydb</span> <span className={cont}>\</span>{"\n"}
+    {"  "}<span className={f}>-e</span> <span className={val}>TABLES=public.users,public.orders</span> <span className={cont}>\</span>{"\n"}
+    {"  "}<span className={f}>-e</span> <span className={val}>ICEBERG_CATALOG_URL=http://localhost:8181</span> <span className={cont}>\</span>{"\n"}
+    {"  "}<span className={f}>-e</span> <span className={val}>WAREHOUSE=s3://my-data-lake/</span> <span className={cont}>\</span>{"\n"}
+    {"  "}<span className={f}>-e</span> <span className={val}>NAMESPACE=default</span> <span className={cont}>\</span>{"\n"}
+    {"  "}<span className={f}>-e</span> <span className={val}>S3_ENDPOINT=http://localhost:9000</span> <span className={cont}>\</span>{"\n"}
+    {"  "}<span className={f}>-e</span> <span className={val}>S3_ACCESS_KEY=admin</span> <span className={cont}>\</span>{"\n"}
+    {"  "}<span className={f}>-e</span> <span className={val}>S3_SECRET_KEY=password</span> <span className={cont}>\</span>{"\n"}
+    {"  "}<span className={cmd}>ghcr.io/pg2iceberg/pg2iceberg</span>
   </>
 );
 
@@ -300,24 +296,8 @@ function QuickStart() {
           <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
             Quickstart
           </h2>
-          <p className="mt-3 text-muted-foreground">
-            Configure your source and sink, then run a single binary.
-          </p>
         </div>
-        <div className="mt-12 space-y-6">
-          <div className="overflow-hidden rounded-none border border-neutral-700 bg-neutral-900">
-            <div className="flex items-center gap-2 border-b border-neutral-700 bg-neutral-800 px-4 py-2.5">
-              <Terminal className="h-4 w-4 text-neutral-400" />
-              <span className="text-xs font-medium text-neutral-400">
-                config.yaml
-              </span>
-            </div>
-            <div className="relative">
-              <pre className="overflow-x-auto p-4 text-sm leading-relaxed">
-                <code>{yamlConfig}</code>
-              </pre>
-            </div>
-          </div>
+        <div className="mt-12">
           <div className="overflow-hidden rounded-none border border-neutral-700 bg-neutral-900">
             <div className="flex items-center justify-between border-b border-neutral-700 bg-neutral-800 px-4 py-2.5">
               <div className="flex items-center gap-2">
@@ -326,11 +306,11 @@ function QuickStart() {
                   Terminal
                 </span>
               </div>
-              <CopyButton text="docker run -v ./config.yaml:/config.yaml ghcr.io/pg2iceberg/pg2iceberg" />
+              <CopyButton text={dockerRunCmd} />
             </div>
-            <pre className="overflow-x-auto p-4 text-sm">
-              <code className="text-neutral-100">
-                <span className="text-neutral-500 select-none">$ </span>docker run -v ./config.yaml:/config.yaml ghcr.io/pg2iceberg/pg2iceberg
+            <pre className="overflow-x-auto p-4 text-sm leading-relaxed">
+              <code>
+                <span className="text-neutral-500 select-none">$ </span>{dockerRunJsx}
               </code>
             </pre>
           </div>
