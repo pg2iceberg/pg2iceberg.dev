@@ -123,6 +123,9 @@ function Navbar() {
             <a href="#quickstart" className="transition-colors hover:text-foreground">
               Quickstart
             </a>
+            <a href="https://docs.pg2iceberg.dev" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-foreground">
+              Docs
+            </a>
           </div>
         </div>
         <GitHubStars />
@@ -156,12 +159,12 @@ function Hero() {
             Get Started <ArrowRight className="h-4 w-4" />
           </a>
           <a
-            href="https://github.com/pg2iceberg/pg2iceberg"
+            href="https://docs.pg2iceberg.dev"
             target="_blank"
             rel="noopener noreferrer"
             className={cn(buttonVariants({ variant: "outline", size: "lg" }), "border border-border")}
           >
-            View on GitHub
+            Docs
           </a>
         </div>
       </div>
